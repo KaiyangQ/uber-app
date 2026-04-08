@@ -1,50 +1,89 @@
-# Welcome to your Expo app 👋
+# Uber Clone
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A full-featured Uber-clone mobile application built with React Native and Expo, covering ride booking, live maps, payments, and ride history.
 
-## Get started
+## Features
 
-1. Install dependencies
+### Authentication
+- Email/password sign-up and sign-in via Clerk
+- One-time passcode (OTP) verification
+- Google OAuth sign-in
 
-   ```bash
-   npm install
-   ```
+### Home Screen
+- GPS location detection on launch
+- Reverse geocoding to display the user's current address
+- Live map showing nearby driver markers
 
-2. Start the app
+### Ride Booking
+- Google Places Autocomplete for destination search
+- Route calculation with the Google Directions API
+- Per-driver ETA and price estimate before booking
 
-   ```bash
-    npx expo start
-   ```
+### Payment
+- Full Stripe integration — creates a `PaymentIntent` server-side and presents the native payment sheet
+- Payment confirmed before ride is saved
 
-In the output, you'll find options to open the app in a
+### Ride History
+- Past rides fetched from a NeonDB serverless Postgres database via API routes
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Tech Stack
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+| Category | Technology |
+|---|---|
+| Framework | Expo 51, React Native |
+| Language | TypeScript |
+| Navigation | Expo Router (file-based) |
+| Authentication | Clerk (email, OTP, Google OAuth) |
+| Database | NeonDB (serverless Postgres) |
+| Payments | Stripe (PaymentIntent + payment sheet) |
+| Maps | Google Maps SDK, Directions API, Places API |
+| Styling | NativeWind (Tailwind CSS for RN) |
+| State management | Zustand |
 
-## Get a fresh project
+## Project Structure
 
-When you're ready, run:
+```
+app/
+├── (auth)/            # Login, sign-up, and OTP screens
+└── (root)/
+    ├── (tabs)/        # Home, ride history, and profile tabs
+    └── (api)/         # Server-side API routes (NeonDB, Stripe)
 
-```bash
-npm run reset-project
+components/            # Reusable UI components (map, driver card, etc.)
+lib/                   # Utility functions and API helpers
+store/                 # Zustand state stores
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Getting Started
 
-## Learn more
+### Prerequisites
 
-To learn more about developing your project with Expo, look at the following resources:
+- Node.js 18+
+- Expo CLI (`npm install -g expo-cli`)
+- Accounts and API keys for: Clerk, Stripe, NeonDB, Google Cloud (Maps, Directions, Places)
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Installation
 
-## Join the community
+```bash
+npm install
+```
 
-Join our community of developers creating universal apps.
+### Environment Variables
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Create a `.env` file at the project root:
+
+```env
+EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=...
+EXPO_PUBLIC_GOOGLE_API_KEY=...
+EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY=...
+STRIPE_SECRET_KEY=...
+DATABASE_URL=...
+```
+
+### Run
+
+```bash
+npx expo start
+```
+
+Open in the iOS Simulator, Android emulator, or Expo Go.
